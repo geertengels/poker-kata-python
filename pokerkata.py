@@ -115,7 +115,7 @@ class Hand:
             return self.descending()[0].face
 
     def isFlush(self):
-        return len(self._suitsOccuringTimes(5))!=0
+        return self._suitsOccuringTimes(5)
 
     def fullHouse(self):
         triplet, remainingHand = self.triplet()
@@ -123,7 +123,6 @@ class Hand:
             pair, remainingHand = remainingHand.pair()
             if pair:
                 return triplet
-        return None
 
     def quartet(self):
         quartetFaces = self._facesOccuringTimes(4)
