@@ -83,7 +83,7 @@ class Hand:
         return sorted([face for face in self.byFaceCounted.keys() if self.byFaceCounted[face]==numTimes], reverse=True)
 
     def _suitsOccuringTimes(self, numTimes):
-        return sorted([suit for suit in self.bySuitCounted.keys() if self.bySuitCounted[suit]==numTimes], reverse=True)
+        return [suit for suit in self.bySuitCounted.keys() if self.bySuitCounted[suit]==numTimes]
     
     def pair(self):
         pairFaces = self._facesOccuringTimes(2)
