@@ -62,10 +62,8 @@ class Hand:
     def __init__(self, colour, cards):
         self.colour = colour
         self.cards = cards
-        self.byFace = self._grouped(lambda x: x.face)
-        self.bySuit = self._grouped(lambda x: x.suit)
-        self.byFaceCounted = {face: len(cardList) for (face, cardList) in self.byFace.items()}
-        self.bySuitCounted = {suit: len(cardList) for (suit, cardList) in self.bySuit.items()}
+        self.faceCounts = {face: len(cardList) for (face, cardList) in self._grouped(lambda x: x.face).items()}
+        self.suitCounts = {suit: len(cardList) for (suit, cardList) in self._grouped(lambda x: x.suit).items()}
         
     def __repr__(self):
         return self.colour + ': ' + str(self.cards)
@@ -80,10 +78,10 @@ class Hand:
         return grouped
 
     def _facesOccuringTimes(self, numTimes):
-        return sorted([face for face in self.byFaceCounted.keys() if self.byFaceCounted[face]==numTimes], reverse=True)
+        return sorted([face for face in self.faceCounts if self.faceCounts[face]==numTimes], reverse=True)
 
     def _suitsOccuringTimes(self, numTimes):
-        return [suit for suit in self.bySuitCounted.keys() if self.bySuitCounted[suit]==numTimes]
+        return [suit for suit in self.suitCounts if self.suitCounts[suit]==numTimes]
     
     def pair(self):
         pairFaces = self._facesOccuringTimes(2)
@@ -144,9 +142,6 @@ class Result:
         self.outcome = outcome
         self.winningColour = winningColour
         self.reason = reason
-
-    def __repr__(self):
-        return 'Result(%s,%s,%s)' % (self.outcome, self.winningColour, self.reason)
 
     def __eq__(self, other):
         return (self.outcome == other.outcome) and (self.winningColour == other.winningColour) and (self.reason == other.reason)
