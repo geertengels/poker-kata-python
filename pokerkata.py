@@ -25,7 +25,7 @@ class Face:
             return self.value < other.value
         return NotImplemented
 
-    def __repr__(self):
+    def __str__(self):
         return self.rep
 
     def __hash__(self):
@@ -37,7 +37,7 @@ class Card:
         self.face = face
         self.suit = suit
 
-    def __repr__(self):
+    def __str__(self):
         return self.face.rep + self.suit.value
 
     def __eq__(self, other):
@@ -65,7 +65,7 @@ class Hand:
         self.faceCounts = {face: len(cardList) for (face, cardList) in self._grouped(lambda x: x.face).items()}
         self.suitCounts = {suit: len(cardList) for (suit, cardList) in self._grouped(lambda x: x.suit).items()}
         
-    def __repr__(self):
+    def __str__(self):
         return self.colour + ': ' + str(self.cards)
 
     def descending(self):
