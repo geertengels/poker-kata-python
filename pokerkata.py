@@ -54,9 +54,9 @@ class Card:
             return self.face.value < other.face.value
         return NotImplemented
         
-    @staticmethod
-    def fromRep(rep):
-        return Card(Face(rep[0]), Suit(rep[1]))
+    @classmethod
+    def fromRep(cls, rep):
+        return cls(Face(rep[0]), Suit(rep[1]))
 
 class Hand:
     def __init__(self, colour, cards):
@@ -71,10 +71,10 @@ class Hand:
     def descending(self):
         return sorted(self.cards, reverse=True)
 
-    def _grouped(self, fun):
+    def _grouped(self, f):
         grouped = defaultdict(list)
         for card in self.cards:
-            grouped[fun(card)].append(card)
+            grouped[f(card)].append(card)
         return grouped
 
     def _facesOccuringTimes(self, numTimes):
@@ -129,11 +129,11 @@ class Hand:
         else:
             return (None, self)
         
-    @staticmethod
-    def fromRep(rep):
+    @classmethod
+    def fromRep(cls, rep):
         match = re.match('(.*): (.*)', rep)
         colour, cardreps = match.group(1), set(match.group(2).split(' '))
-        return Hand(colour, {Card.fromRep(cardrep) for cardrep in cardreps})
+        return cls(colour, {Card.fromRep(cardrep) for cardrep in cardreps})
 
 class InvalidCardDeck(Exception): pass
 
@@ -153,15 +153,15 @@ class Result:
     def draw():
         return Result('draw')
     
-    @staticmethod
-    def fromRep(rep):
+    @classmethod
+    def fromRep(cls, rep):
         try:
           match = re.match('Win (.*?), (.*)', rep)
           winningColour, reason = match.group(1), match.group(2)
-          return Result('win', winningColour, reason)
+          return cls('win', winningColour, reason)
         except Exception as exc:
           #print(exc)
-          return Result.draw()
+          return cls.draw()
 
 def compareFaces(face1, face2, hand1, hand2, reason):
     if face1 > face2: return Result('win', hand1.colour, reason + ': ' + str(face1) + ' over ' + str(face2))
