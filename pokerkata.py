@@ -148,10 +148,10 @@ class Result:
 
     def isDraw(self):
         return self.outcome == 'draw'
-
-    @staticmethod
-    def draw():
-        return Result('draw')
+    
+    @classmethod
+    def draw(cls):
+        return cls('draw')
     
     @classmethod
     def fromRep(cls, rep):
